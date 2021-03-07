@@ -11,7 +11,6 @@ import { selectCartProperty } from "../../redux/cart/cart.selector";
 import { createStructuredSelector } from "reselect";
 
 const Header = ({ currentUser, hidden }) => {
-  console.log(hidden);
   return (
     <div className="header">
       <Link to="/" className="logo-container">
