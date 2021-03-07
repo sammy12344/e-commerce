@@ -6,38 +6,44 @@ import { connect } from "react-redux";
 import { auth } from "../../firebase/firebase.utils";
 import CartIcon from "../cart-component/cart-icon.component";
 import CartDropDown from "../cart-dropdown/cart-dropdown.component";
+import { selectCurrentUser } from "../../redux/user/user.selector";
+import { selectCartProperty } from "../../redux/cart/cart.selector";
+import { createStructuredSelector } from "reselect";
 
-const Header = ({ currentUser, hidden }) => (
-  <div className="header">
-    <Link to="/" className="logo-container">
-      <Logo className="logo"></Logo>
-    </Link>
-    <div className="options">
-      <Link to="/shop" className="option">
-        SHOP
+const Header = ({ currentUser, hidden }) => {
+  console.log(hidden);
+  return (
+    <div className="header">
+      <Link to="/" className="logo-container">
+        <Logo className="logo"></Logo>
       </Link>
-      <Link to="/shop" className="option">
-        CONTACT
-      </Link>
-      {currentUser ? (
-        <div className="option" onClick={() => auth.signOut()}>
-          {" "}
-          SIGN OUT{" "}
-        </div>
-      ) : (
-        <Link className="option" to="/signin">
-          SIGN IN
+      <div className="options">
+        <Link to="/shop" className="option">
+          SHOP
         </Link>
-      )}
-      <CartIcon />
+        <Link to="/shop" className="option">
+          CONTACT
+        </Link>
+        {currentUser ? (
+          <div className="option" onClick={() => auth.signOut()}>
+            {" "}
+            SIGN OUT{" "}
+          </div>
+        ) : (
+          <Link className="option" to="/signin">
+            SIGN IN
+          </Link>
+        )}
+        <CartIcon />
+      </div>
+      {hidden ? null : <CartDropDown />}
     </div>
-    {hidden ? null : <CartDropDown />}
-  </div>
-);
+  );
+};
 
-const mapStateToProps = ({ user: { currentUser }, cart: { hidden } }) => ({
-  currentUser: currentUser,
-  hidden,
+const mapStateToProps = createStructuredSelector({
+  currentUser: selectCurrentUser,
+  hidden: selectCartProperty,
 });
 
 export default connect(mapStateToProps)(Header);
