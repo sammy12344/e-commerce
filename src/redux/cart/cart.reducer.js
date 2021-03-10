@@ -7,7 +7,6 @@ const INITIAL_STATE = {
 };
 
 const cartReducer = (state = INITIAL_STATE, action) => {
-  console.log(action);
   switch (action.type) {
     case CartActionTypes.TOGGLE_CART_HIDDEN:
       return {
@@ -22,13 +21,15 @@ const cartReducer = (state = INITIAL_STATE, action) => {
     case CartActionTypes.CLEAR_ITEM:
       return {
         ...state,
-        cartItems: state.cartItems.filter(cartItem => cartItem.id !== action.payload.id)
-      }
+        cartItems: state.cartItems.filter(
+          (cartItem) => cartItem.id !== action.payload.id
+        ),
+      };
     case CartActionTypes.REMOVE_ITEM:
       return {
         ...state,
         cartItems: removeItem(state.cartItems, action.payload),
-      }
+      };
     default:
       return state;
   }
